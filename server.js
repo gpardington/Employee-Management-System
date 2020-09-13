@@ -99,7 +99,7 @@ function mainMenu() {
     });
 };
 
-//VIEW CONTENT FEATURES
+//VIEW CONTENT FEATURES-------------------------------------------------------------------------------
 //View all employees
 async function viewEmployees() {
     clear();
@@ -192,7 +192,7 @@ async function viewByManager() {
     mainMenu();
 };
 
-//ADD CONTENT FEATURES
+//ADD CONTENT FEATURES-------------------------------------------------------------------------------
 //Add employee functionality 
 async function addEmployee() {
     clear();
@@ -302,7 +302,7 @@ async function addDepartment() {
     });
 }
 
-//REMOVE CONTENT FEATURES
+//REMOVE CONTENT FEATURES-------------------------------------------------------------------------------
 //Remove employee functionality
 async function removeEmployee() {
     clear();
@@ -407,12 +407,12 @@ async function removeDepartment() {
     });
 }
 
-//UPDATE CONTENT FEATURES
+//UPDATE CONTENT FEATURES-------------------------------------------------------------------------------
 //Update Employee Role
-async function updateEmployee() {
+async function updateEmployeeRole() {
     clear();
     const employees = await connection.query("SELECT * FROM employee");
-    const employeeOptions = roles.map(({ id, first_name, last_name }) => ({
+    const employeeOptions = employees.map(({ id, first_name, last_name }) => ({
         name: first_name + " " + last_name,
         value: id,
     }));
@@ -458,3 +458,52 @@ async function updateEmployee() {
     });
 }
 
+//Update Employee Manager
+async function updateEmployeeManager() {
+    clear();
+    const employees = await connection.query("SELECT * FROM employee");
+    const employeeOptions = employees.map(({ id, first_name, last_name }) => ({
+        name: first_name + " " + last_name,
+        value: id,
+    }));
+
+    const managers = await connection.query("SELECT * FROM employee");
+    const managerOptions = managers.map(({ id, first_name, last_name }) => ({
+        name: first_name.concat(" ", last_name),
+        value: id,
+    }));
+
+    inquirer.prompt([
+        {
+            type: "list",
+            message: "Which employee would you like to update?",
+            name: "userEmployee",
+            choices: employeeOptions,
+        },
+        {
+            type: "list",
+            message: "Which manager would you like to assign this employee?",
+            name: "newManagerId",
+            choices: managerOptions,
+        },
+    ])
+    .then((answer) => {
+        return connection.query("UPDATE employee SET ? WHERE ?", [
+            {
+                manager_id: answer.newManagerId,
+            },
+            {
+                id: answer.userEmployee,
+            },
+        ]);
+    })
+    .then(() => {
+        return connection.query(employeesSQL + ";");
+    })
+    .then((employees) => {
+        log("Employee Manager Updated!");
+        log("\n");
+        console.table(employees);
+        mainMenu();
+    });
+}
