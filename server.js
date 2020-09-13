@@ -5,6 +5,7 @@ const console_table = require("console.table");
 const clear = require("console-clear");
 const util = require("util");
 const { start } = require("repl");
+const { allowedNodeEnvironmentFlags } = require("process");
 
 const employeesSQL = 'SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.department_name, concat(manager.first_name," ", manager.last_name) as manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee as manager on employee.manager_id = manager.id';
 
@@ -26,3 +27,75 @@ connection.connect(function(err) {
     start();
 });
 
+//Start application
+function start() {
+    clear();
+    mainMenu();
+}
+
+function mainMenu() {
+    inquirer.prompt({
+        name: "userSelection",
+        type: "list",
+        message: "What would you like to do?",
+        choices: [
+            "View All Employees",
+            "View By Department",
+            "View By Role",
+            "View By Manager",
+            "Add Employee",
+            "Add Role",
+            "Add Department",
+            "Remove Employee",
+            "Remove Department",
+            "Remove Role",
+            "Update Employee Role",
+            "Update Employee Manager",
+            "Exit",
+        ],
+    })
+    .then((answer) => {
+        switch (answer.userSelection) {
+            case "View All Employees":
+                viewEmployees();
+                break;
+            case "View By Department":
+                viewByDepartment();
+                break;
+            case "View By Manager":
+                viewByManager();
+                break;
+            case "View By Role":
+                viewByRole();
+                break;
+            case "Add Employee":
+                addEmployee();
+                break;
+            case "Add Role":
+                addRole();
+                break;
+            case "Add Department":
+                addDepartment();
+                break;
+            case "Remove Employee":
+                removeEmployee();
+                break;
+            case "Remove Role":
+                removeRole();
+                break;
+            case "Remove Department":
+                removeDepartment();
+                break;
+            case "Update Employee Role":
+                updateEmployeeRole();
+                break;
+            case "Update Employee Manager":
+                updateEmployeeManager();
+                break;
+            
+            default:
+                connection.end();
+                break;
+        };
+    });
+};
