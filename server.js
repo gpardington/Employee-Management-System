@@ -237,3 +237,45 @@ async function addEmployee() {
     });
 }
 
+//Add role functionality
+async function addRole() {
+    clear();
+    const departments = await connection.query("SELECT * FROM department");
+    const departmentOptions = departments.map(({ id, department_name }) => ({
+        name: department_name,
+        value: id,
+    }));
+
+    inquirer.prompt([
+        {
+            name: "title",
+            message: "What is the name of the role you would like to add?",
+        },
+        {
+            name: "salary",
+            message: "What is this role's salary?",
+        },
+        {
+            type: "list",
+            message: "Which department is this role under?",
+            name: "department_id",
+            choices: departmentOptions,
+        },
+    ])
+    .then((answer) => {
+        return connection.query("INSERT INTO role SET ?", answer);
+    })
+    .then(() => {
+        return connection.query("SELECT * FROM role");
+    })
+    .then((roles) => {
+        log("Role added!");
+        log("\n");
+        log(inverse("All Roles"));
+        console.table(roles);
+        mainMenu();
+    });
+}
+
+//Add  functionality 
+
