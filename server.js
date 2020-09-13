@@ -277,5 +277,26 @@ async function addRole() {
     });
 }
 
-//Add  functionality 
+//Add department functionality 
+async function addDepartment() {
+    clear();
+    inquirer.prompt(
+        {
+            name: "department_name",
+            message: "What is the name of the department you would like to add?",
+        })
+    .then((department) => {
+        return connection.query("INSERT INTO department SET ?", department);
+    })
+    .then(() => {
+        return connection.query("SELECT * FROM department");
+    })
+    .then((departments) => {
+        log("Department added!");
+        log("\n");
+        log(inverse("All Departments"));
+        console.table(departments);
+        mainMenu();
+    });
+}
 
