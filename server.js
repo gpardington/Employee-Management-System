@@ -134,5 +134,35 @@ async function viewByDepartment() {
     log("\n");
     console.table(employees);
     mainMenu();
-}
+};
+
+//View employees by role
+async function viewByRole() {
+    clear();
+    log("Viewing Employees By Role");
+
+    const roles = await connection.query("SELECT * FROM role");
+    const roleOptions = roles.map(({ id, title }) => ({
+        name: title,
+        value: id,
+    }));
+
+    const { userRoleId } = await inquirer.prompt([
+        {
+            type: "list",
+            message: "Which role would you like to view?",
+            name: "userRoleId",
+            choices: roleOptions,
+        },
+    ]);
+
+    const employees = await connection.query(
+        employeesSQL + " WHERE role.id = ?;", userRoleId
+    );
+
+    log("\n");
+    console.table(employees);
+    mainMenu();
+};
+
 
