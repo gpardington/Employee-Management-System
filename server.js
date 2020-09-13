@@ -4,8 +4,7 @@ const inquirer = require("inquirer");
 const console_table = require("console.table");
 const clear = require("console-clear");
 const util = require("util");
-const { start } = require("repl");
-const { allowedNodeEnvironmentFlags } = require("process");
+const log = console.log;
 
 const employeesSQL = 'SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.department_name, concat(manager.first_name," ", manager.last_name) as manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee as manager on employee.manager_id = manager.id';
 
@@ -192,4 +191,49 @@ async function viewByManager() {
     mainMenu();
 };
 
+//Add employee functionality 
+async function addEmployee() {
+    clear();
+    const roles = await connection.query("SELECT * FROM role");
+    const roleOptions = roles.map(({ id, title }) => ({
+        name: first_name.concat(" ", last_name),
+        value: id,
+    }));
+
+    inquirer.prompt([
+        {
+            name: "first_name",
+            message: "What is the employee's first name?",
+        },
+        {
+            name: "last_name",
+            message: "What is the employee's last name?",
+        },
+        {
+            type: "list",
+            message: "What is the employee's role?",
+            name: "role_id",
+            choices: roleOptions,
+        },
+        {
+            type: "list",
+            message: "Who is the employee's manager?",
+            name: "manager_id",
+            choices: managerOptions,
+        },
+    ])
+    .then((answer) => {
+        return connection.query("INSERT INTO employee SET ?", answer);
+    })
+    .then(() => {
+        return connection.query(employeesSQL + ";");
+    })
+    .then((employees) => {
+        log("Employee added!");
+        log("\n");
+        log(inverse("All Employees"));
+        console.table(employees);
+        mainMenu();
+    });
+}
 
