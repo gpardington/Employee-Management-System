@@ -369,3 +369,37 @@ async function removeRole() {
         mainMenu();
     });
 }
+
+//Remove department functionality
+async function removeDepartment() {
+    clear();
+    const departments = await connection.query("SELECT * FROM department");
+    const departmentOptions = departments.map(({ id, department_name }) => ({
+        name: department_name,
+        value: id,
+    }));
+
+    inquirer.prompt([
+        {
+            type: "list",
+            name: "userDepartmentId",
+            message: "Which department would you like to remove?",
+            choices: departmentOptions,
+        },
+        ])
+    .then(({ userDepartmentId }) => {
+        return connection.query("DELETE FROM department WHERE ?", {
+            id: userDepartmentId,
+        });
+    })
+    .then(() => {
+        return connection.query(employeesSQL + ";");
+    })
+    .then((roles) => {
+        log("Department removed!");
+        log("\n");
+        log(inverse("All Departments"));
+        console.table(departments);
+        mainMenu();
+    });
+}
