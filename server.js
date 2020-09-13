@@ -300,3 +300,38 @@ async function addDepartment() {
     });
 }
 
+//Remove employee functionality
+async function removeEmployee() {
+    clear();
+    const employees = await connection.query("SELECT * FROM employee");
+    const employeeOptions = employees.map(({ id, first_name, last_name }) => ({
+        name: first_name + " " + last_name,
+        value: id,
+    }));
+
+    inquirer.prompt([
+        {
+            type: "list",
+            name: "userEmployee",
+            message: "Which employee would you like to remove?",
+            choices: employeeOptions,
+
+        },
+        ])
+    .then(({ userEmployee }) => {
+        return connection.query("DELETE FROM employee WHERE ?", {
+            id: userEmployee,
+        });
+    })
+
+    .then(() => {
+        return connection.query(employeesSQL + ";");
+    })
+    .then((employees) => {
+        log("Employee removed!");
+        log("\n");
+        log(inverse("All Employees"));
+        console.table(employees);
+        mainMenu();
+    });
+}
