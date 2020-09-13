@@ -99,3 +99,40 @@ function mainMenu() {
         };
     });
 };
+
+//View all employees
+async function viewEmployees() {
+    clear();
+    const employees = await connection.query(employeesSQL + ";");
+
+    log("\n");
+    log(inverse("Viewing All Employees"));
+    console.table(employees);
+    mainMenu();
+};
+
+//View employees by department
+async function viewByDepartment() {
+    clear();
+    const departments = await connection.query("SELECT * FROM department");
+    const departmentOptions = departments.map(({ id, department_name }) => ({
+        name: department_name,
+        value: id,
+    }));
+    
+    const { userDepartmentId } = await inquirer.prompt([
+        {
+            type: "list",
+            message: "Which department would you like to view?",
+            name: "userDepartmentId",
+            choices: departmentOptions,
+        },
+    ]);
+
+    const employees = await connection.query(employeesSQL + " WHERE department.id = ?;", userDepartmentId);
+
+    log("\n");
+    console.table(employees);
+    mainMenu();
+}
+
