@@ -165,4 +165,31 @@ async function viewByRole() {
     mainMenu();
 };
 
+//View employees by manager
+async function viewByManager() {
+    clear();
+    const managers = await connection.query("SELECT * FROM employee");
+    const managerOptions = managers.map(({ id, first_name, last_name }) => ({
+        name: first_name.concat(" ", last_name),
+        value: id,
+    }));
+
+    const { userManagerId } = await inquirer.prompt([
+        {
+            type: "list",
+            message: "Which manager's employees would you like to view?",
+            name: "userManagerId",
+            choices: managerOptions,
+        },
+    ]);
+
+    const employees = await connection.query(
+        employeesSQL + " WHERE manager.id = ?;", userManagerId
+    );
+
+    log("\n");
+    console.table(employees);
+    mainMenu();
+};
+
 
