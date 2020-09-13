@@ -99,6 +99,7 @@ function mainMenu() {
     });
 };
 
+//VIEW CONTENT FEATURES
 //View all employees
 async function viewEmployees() {
     clear();
@@ -191,6 +192,7 @@ async function viewByManager() {
     mainMenu();
 };
 
+//ADD CONTENT FEATURES
 //Add employee functionality 
 async function addEmployee() {
     clear();
@@ -229,7 +231,7 @@ async function addEmployee() {
         return connection.query(employeesSQL + ";");
     })
     .then((employees) => {
-        log("Employee added!");
+        log("Employee Added!");
         log("\n");
         log(inverse("All Employees"));
         console.table(employees);
@@ -269,7 +271,7 @@ async function addRole() {
         return connection.query("SELECT * FROM role");
     })
     .then((roles) => {
-        log("Role added!");
+        log("Role Added!");
         log("\n");
         log(inverse("All Roles"));
         console.table(roles);
@@ -292,7 +294,7 @@ async function addDepartment() {
         return connection.query("SELECT * FROM department");
     })
     .then((departments) => {
-        log("Department added!");
+        log("Department Added!");
         log("\n");
         log(inverse("All Departments"));
         console.table(departments);
@@ -300,6 +302,7 @@ async function addDepartment() {
     });
 }
 
+//REMOVE CONTENT FEATURES
 //Remove employee functionality
 async function removeEmployee() {
     clear();
@@ -328,7 +331,7 @@ async function removeEmployee() {
         return connection.query(employeesSQL + ";");
     })
     .then((employees) => {
-        log("Employee removed!");
+        log("Employee Removed!");
         log("\n");
         log(inverse("All Employees"));
         console.table(employees);
@@ -362,7 +365,7 @@ async function removeRole() {
         return connection.query(employeesSQL + ";");
     })
     .then((roles) => {
-        log("Role removed!");
+        log("Role Removed!");
         log("\n");
         log(inverse("All Roles"));
         console.table(roles);
@@ -396,10 +399,62 @@ async function removeDepartment() {
         return connection.query(employeesSQL + ";");
     })
     .then((roles) => {
-        log("Department removed!");
+        log("Department Removed!");
         log("\n");
         log(inverse("All Departments"));
         console.table(departments);
         mainMenu();
     });
 }
+
+//UPDATE CONTENT FEATURES
+//Update Employee Role
+async function updateEmployee() {
+    clear();
+    const employees = await connection.query("SELECT * FROM employee");
+    const employeeOptions = roles.map(({ id, first_name, last_name }) => ({
+        name: first_name + " " + last_name,
+        value: id,
+    }));
+
+    const roles = await connection.query("SELECT * FROM role");
+    const roleOptions = roles.map(({ id, title }) => ({
+        name: title,
+        value: id,
+    }));
+
+    inquirer.prompt([
+        {
+            type: "list",
+            message: "Which employee would you like to update?",
+            name: "userEmployee",
+            choices: employeeOptions,
+        },
+        {
+            type: "list",
+            message: "Which role would you like to assign to this employee?",
+            name: "newRoleId",
+            choices: roleOptions,
+        },
+    ])
+    .then((answer) => {
+        return connection.query("UPDATE employee SET ? WHERE ?", [
+            {
+                role_id: answer.newRoleId,
+            },
+            {
+                id: answer.userEmployee,
+            },
+        ]);
+    })
+    .then(() => {
+        return connection.query(employeesSQL + ";");
+    })
+    .then((employees) => {
+        log("Employee Role Updated!");
+        log("\n");
+        console.table(employees);
+        mainMenu();
+    });
+}
+
