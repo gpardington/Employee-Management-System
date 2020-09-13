@@ -335,3 +335,37 @@ async function removeEmployee() {
         mainMenu();
     });
 }
+
+//Remove role functionality
+async function removeRole() {
+    clear();
+    const roles = await connection.query("SELECT * FROM role");
+    const roleOptions = roles.map(({ id, title }) => ({
+        name: title,
+        value: id,
+    }));
+
+    inquirer.prompt([
+        {
+            type: "list",
+            name: "userRoleId",
+            message: "Which role would you like to remove?",
+            choices: roleOptions,
+        },
+        ])
+    .then(({ userRoleId }) => {
+        return connection.query("DELETE FROM role WHERE ?", {
+            id: userRoleId,
+        });
+    })
+    .then(() => {
+        return connection.query(employeesSQL + ";");
+    })
+    .then((roles) => {
+        log("Role removed!");
+        log("\n");
+        log(inverse("All Roles"));
+        console.table(roles);
+        mainMenu();
+    });
+}
