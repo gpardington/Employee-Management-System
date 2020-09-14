@@ -48,7 +48,7 @@ You can fork this repository to your local machine. Once all of the code is pull
 
 ![demo](https://github.com/gpardington/Employee-Management-System/blob/master/demo/employee-tracker-demo.gif)
 
-![Full Length Demo on YouTube](https://www.youtube.com/watch?v=ptSD-os2vjg)
+[Full Length Demo on YouTube](https://www.youtube.com/watch?v=ptSD-os2vjg)
 
 
 ### Credits:
