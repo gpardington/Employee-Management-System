@@ -14,11 +14,11 @@ A content management system designed for managing a company's employees using no
 - [Questions](#questions)
 - [Copyright](#copyright)
 
-## Description
+## Description:
 A Content Management System that can be used to create, update, or delete employees, roles, and departments demonstrating the usage of node.JS and MySQL.
 
 
-## User Story
+## User Story:
 
 AS A business owner
 I WANT to be able to view and manage the departments, roles, and employees in my company
@@ -30,12 +30,12 @@ SO THAT I can organize and plan my business
 https://github.com/gpardington/Employee-Management-System
 
 
-### Installation
+### Installation:
 
 You can fork this repository to your local machine. Once all of the code is pulled up, run the provided schema file in MySQL Workbench. Then, run the provided seeds file in MySQL Workbench. Once this is done, simply run "node server.js" in the integrated terminal to start the application. 
 
 
-### Dependencies
+### Dependencies:
 
 - Console-Clear
 - Console.Table
@@ -44,14 +44,14 @@ You can fork this repository to your local machine. Once all of the code is pull
 - Chalk
 
 
-### Demo
+### Demo:
 
-![home](https://github.com/gpardington/Employee-Management-System/blob/master/demo/employee-tracker-demo.gif)
+![demo](https://github.com/gpardington/Employee-Management-System/blob/master/demo/employee-tracker-demo.gif)
 
-![youtube](https://www.youtube.com/watch?v=ptSD-os2vjg)
+![Full Length Demo on YouTube](https://www.youtube.com/watch?v=ptSD-os2vjg)
 
 
-### Credits
+### Credits:
 - [MySQL](https://www.npmjs.com/package/mysql)
 
 - [Inquirer](https://www.npmjs.com/package/inquirer)
@@ -61,14 +61,14 @@ You can fork this repository to your local machine. Once all of the code is pull
 - [Chalk](https://www.npmjs.com/package/chalk)
 
 
-### Contributors
+### Contributors:
 
 Grant Pardington
 
 ![npm](https://img.shields.io/static/v1?label=license&message=MIT&color=blue)
 
 
-### Questions
+### Questions:
 
 If you have any questions, feel free to contact me:
  
