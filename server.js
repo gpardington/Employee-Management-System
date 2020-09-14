@@ -2,11 +2,16 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 const console_table = require("console.table");
+const chalk = require("chalk");
 const clear = require("console-clear");
 const util = require("util");
 const log = console.log;
 
 const employeesSQL = 'SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.department_name, concat(manager.first_name," ", manager.last_name) as manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee as manager on employee.manager_id = manager.id';
+
+//Adding in "chalk" feature
+const green = chalk.green;
+const inverse = chalk.inverse;
 
 //Establish connection to mySQL database
 const connection = mysql.createConnection({
@@ -29,7 +34,18 @@ connection.connect(function(err) {
 //Start application
 function start() {
     clear();
+    renderGreeting();
     mainMenu();
+}
+
+//Render "chalk" greeting
+function renderGreeting() {
+    log(String.raw`
+
+█▀▀ █▀▄▀█ █▀█ █░░ █▀█ █▄█ █▀▀ █▀▀   █▀▄▀█ ▄▀█ █▄░█ ▄▀█ █▀▀ █▀▀ █▀▄▀█ █▀▀ █▄░█ ▀█▀   █▀ █▄█ █▀ ▀█▀ █▀▀ █▀▄▀█
+██▄ █░▀░█ █▀▀ █▄▄ █▄█ ░█░ ██▄ ██▄   █░▀░█ █▀█ █░▀█ █▀█ █▄█ ██▄ █░▀░█ ██▄ █░▀█ ░█░   ▄█ ░█░ ▄█ ░█░ ██▄ █░▀░█`);
+
+    log("\n");    
 }
 
 function mainMenu() {
@@ -106,7 +122,7 @@ async function viewEmployees() {
     const employees = await connection.query(employeesSQL + ";");
 
     log("\n");
-    //log(inverse("Viewing All Employees"));
+    log(inverse("Viewing All Employees"));
     console.table(employees);
     mainMenu();
 };
@@ -240,7 +256,7 @@ async function addEmployee() {
     .then((employees) => {
         log("Employee Added!");
         log("\n");
-        //log(inverse("All Employees"));
+        log(inverse("All Employees"));
         console.table(employees);
         mainMenu();
     });
@@ -280,7 +296,7 @@ async function addRole() {
     .then((roles) => {
         log("Role Added!");
         log("\n");
-        //log(inverse("All Roles"));
+        log(inverse("All Roles"));
         console.table(roles);
         mainMenu();
     });
@@ -303,7 +319,7 @@ async function addDepartment() {
     .then((departments) => {
         log("Department Added!");
         log("\n");
-        //log(inverse("All Departments"));
+        log(inverse("All Departments"));
         console.table(departments);
         mainMenu();
     });
@@ -340,7 +356,7 @@ async function removeEmployee() {
     .then((employees) => {
         log("Employee Removed!");
         log("\n");
-        //log(inverse("All Employees"));
+        log(inverse("All Employees"));
         console.table(employees);
         mainMenu();
     });
@@ -374,7 +390,7 @@ async function removeRole() {
     .then((roles) => {
         log("Role Removed!");
         log("\n");
-        //log(inverse("All Roles"));
+        log(inverse("All Roles"));
         console.table(roles);
         mainMenu();
     });
@@ -408,7 +424,7 @@ async function removeDepartment() {
     .then((roles) => {
         log("Department Removed!");
         log("\n");
-        //log(inverse("All Departments"));
+        log(inverse("All Departments"));
         console.table(departments);
         mainMenu();
     });
