@@ -106,7 +106,7 @@ async function viewEmployees() {
     const employees = await connection.query(employeesSQL + ";");
 
     log("\n");
-    log(inverse("Viewing All Employees"));
+    //log(inverse("Viewing All Employees"));
     console.table(employees);
     mainMenu();
 };
@@ -198,6 +198,13 @@ async function addEmployee() {
     clear();
     const roles = await connection.query("SELECT * FROM role");
     const roleOptions = roles.map(({ id, title }) => ({
+        name: title,
+        value: id,
+    }));
+
+    const managers = await connection.query("SELECT * FROM employee");
+
+    const managerOptions = managers.map(({ id, first_name, last_name }) => ({
         name: first_name.concat(" ", last_name),
         value: id,
     }));
@@ -233,7 +240,7 @@ async function addEmployee() {
     .then((employees) => {
         log("Employee Added!");
         log("\n");
-        log(inverse("All Employees"));
+        //log(inverse("All Employees"));
         console.table(employees);
         mainMenu();
     });
@@ -273,7 +280,7 @@ async function addRole() {
     .then((roles) => {
         log("Role Added!");
         log("\n");
-        log(inverse("All Roles"));
+        //log(inverse("All Roles"));
         console.table(roles);
         mainMenu();
     });
@@ -296,7 +303,7 @@ async function addDepartment() {
     .then((departments) => {
         log("Department Added!");
         log("\n");
-        log(inverse("All Departments"));
+        //log(inverse("All Departments"));
         console.table(departments);
         mainMenu();
     });
@@ -333,7 +340,7 @@ async function removeEmployee() {
     .then((employees) => {
         log("Employee Removed!");
         log("\n");
-        log(inverse("All Employees"));
+        //log(inverse("All Employees"));
         console.table(employees);
         mainMenu();
     });
@@ -367,7 +374,7 @@ async function removeRole() {
     .then((roles) => {
         log("Role Removed!");
         log("\n");
-        log(inverse("All Roles"));
+        //log(inverse("All Roles"));
         console.table(roles);
         mainMenu();
     });
@@ -401,7 +408,7 @@ async function removeDepartment() {
     .then((roles) => {
         log("Department Removed!");
         log("\n");
-        log(inverse("All Departments"));
+        //log(inverse("All Departments"));
         console.table(departments);
         mainMenu();
     });

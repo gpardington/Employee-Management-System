@@ -30,7 +30,7 @@ VALUES
     ("Tony", "Royster Jr", 6, 2),
     ("Quest", "Love", 7, 6),
     ("Meg", "White", 9, 2),
-    ("Phil", "Rudd", 8, 6);
+    ("Phil", "Rudd", 8, 6),
     ("Carter", "Beauford", 8, 6);
 
 SELECT * FROM employees_db.employee;
