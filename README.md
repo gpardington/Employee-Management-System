@@ -25,7 +25,7 @@ I WANT to be able to view and manage the departments, roles, and employees in my
 SO THAT I can organize and plan my business
 
 
-## URL:
+### URL:
 
 https://github.com/gpardington/Employee-Management-System
 
@@ -46,7 +46,7 @@ You can fork this repository to your local machine. Once all of the code is pull
 
 ### Demo
 
-![home](https://github.com/gpardington/Note-Taker-App/blob/master/demo/Animated%20GIF-downsized_large.gif)
+![home](https://github.com/gpardington/Employee-Management-System/blob/master/demo/employee-tracker-demo.gif)
 
 ![youtube](https://www.youtube.com/watch?v=ptSD-os2vjg)
 
@@ -72,9 +72,9 @@ Grant Pardington
 
 If you have any questions, feel free to contact me:
  
- [GitHub](https://github.com/gpardington) 
- 
  Email: [grant.pardington@gmail.com](mailto:grant.pardington@gmail.com)
+
+ [GitHub](https://github.com/gpardington) 
 
 
 #### CopyRight
